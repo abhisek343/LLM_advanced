@@ -1,0 +1,131 @@
+services:
+  auth_service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    container_name: llm_interviewer_auth_service
+    ports:
+      - "8001:8000" # Internal port of the service will be 8000
+    env_file:
+      - ./.env # Assuming a common .env file at the root, or create auth_service/.env
+    volumes:
+      - ./auth_service/app:/app/app # For live reloading during development
+    depends_on:
+      - mongodb
+    networks:
+      - llm_interviewer_network
+
+  candidate_service:
+    build:
+      context: ./candidate_service
+      dockerfile: Dockerfile
+    container_name: llm_interviewer_candidate_service
+    ports:
+      - "8002:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./candidate_service/app:/app/app
+    depends_on:
+      - mongodb
+    networks:
+      - llm_interviewer_network
+
+  interview_service:
+    build:
+      context: ./interview_service
+      dockerfile: Dockerfile
+    container_name: llm_interviewer_interview_service
+    ports:
+      - "8003:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./interview_service/app:/app/app
+    depends_on:
+      - mongodb
+    networks:
+      - llm_interviewer_network
+
+  admin_service:
+    build:
+      context: ./admin_service
+      dockerfile: Dockerfile
+    container_name: llm_interviewer_admin_service
+    ports:
+      - "8004:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./admin_service/app:/app/app
+    depends_on:
+      - mongodb
+    networks:
+      - llm_interviewer_network
+
+  hr_service:
+    build:
+      context: ./hr_service
+      dockerfile: Dockerfile
+    container_name: llm_interviewer_hr_service
+    ports:
+      - "8005:8000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./hr_service/app:/app/app
+    depends_on:
+      - mongodb
+    networks:
+      - llm_interviewer_network
+
+  frontend-ui:
+    build:
+      context: ./frontend/llm-interviewer-ui
+      dockerfile: Dockerfile
+      args:
+        VITE_AUTH_SERVICE_URL: http://localhost:8001/api/v1/auth
+        VITE_CANDIDATE_SERVICE_URL: http://localhost:8002/api/v1/candidate
+        VITE_INTERVIEW_SERVICE_URL: http://localhost:8003/api/v1/interview
+        VITE_ADMIN_SERVICE_URL: http://localhost:8004/api/v1/admin
+        VITE_HR_SERVICE_URL: http://localhost:8005/api/v1/hr
+    container_name: llm_interviewer_frontend_ui
+    ports:
+      - "3000:80" # Expose Nginx on host port 3000
+    networks:
+      - llm_interviewer_network
+    depends_on: # Optional, but good for startup order indication
+      - auth_service
+      - candidate_service
+      - interview_service
+      - admin_service
+      - hr_service
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: llm_interviewer_watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # By default, Watchtower polls every 24 hours.
+    # You can add command arguments to customize its behavior, e.g.,
+    # command: --interval 3600 # Check every hour
+    restart: unless-stopped
+    networks:
+      - llm_interviewer_network
+
+  mongodb:
+    image: mongo:latest
+    container_name: llm_interviewer_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - llm_interviewer_network
+
+volumes:
+  mongo_data:
+
+networks:
+  llm_interviewer_network:
+    driver: bridge
