@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     """
     # --- App Configuration ---
     APP_NAME: str = "LLM Interviewer API - Auth Service" # Modified for service
-    API_V1_STR: str = "/api/v1" # This might be common or service-specific
+    API_V1_STR: str = os.getenv("AUTH_API_V1_STR", "/api/v1") # Read from env var, default to /api/v1
     LOG_LEVEL: str = "INFO"
     TESTING_MODE: bool = False
     # --- Database Configuration ---
