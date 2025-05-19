@@ -22,7 +22,7 @@ logger.info(f"--- DEBUG: Value of os.getenv('GEMINI_API_KEY') before Settings in
 
 class Settings(BaseSettings):
     APP_NAME: str = "LLM Interviewer API - Admin Service" # Modified for service
-    API_V1_STR: str = "/api/v1" 
+    API_V1_STR: str = os.getenv("ADMIN_API_V1_STR", "/api/v1") # Read from env var, default to /api/v1
     LOG_LEVEL: str = "INFO"
     TESTING_MODE: bool = False
     
