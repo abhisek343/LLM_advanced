@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     ]
 
     # Service URLs
-    CANDIDATE_SERVICE_URL: str = "http://candidate_service:8000" # Default for docker-compose
+    CANDIDATE_SERVICE_URL: str = os.getenv("CANDIDATE_SERVICE_URL", "http://candidate_service:8000") # Read from env var, default for docker-compose
 
     @field_validator('CORS_ALLOWED_ORIGINS', mode='before')
     @classmethod
