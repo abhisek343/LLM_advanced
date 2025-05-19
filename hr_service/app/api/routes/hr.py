@@ -123,45 +123,62 @@ async def update_hr_profile_details(
     # This implies that for the purpose of this test/flow, setting YoE is sufficient.
     # A more robust "profile completeness" check might involve resume_path as well,
     # but that would require the test script to upload a resume.
-    should_be_profile_complete = (updated_user_obj.years_of_experience is not None)
-    logger.info(f"HR {updated_user_obj.username} - Check for profile_complete (simplified): YoE set: {updated_user_obj.years_of_experience is not None}. Should be complete: {should_be_profile_complete}")
-
-    final_return_user = updated_user_obj # Initialize with the user after primary field updates
+    # Determine target status based on updated information
+    has_yoe = updated_user_obj.years_of_experience is not None
+    has_resume = bool(updated_user_obj.resume_path)
     
-    if should_be_profile_complete:
-        if updated_user_obj.hr_status != "profile_complete":
-            logger.info(f"HR {updated_user_obj.username} meets criteria for 'profile_complete'. Current status: '{updated_user_obj.hr_status}'. Attempting update.")
-            status_update_result = await db[settings.MONGODB_COLLECTION_USERS].update_one(
-                {"_id": updated_user_obj.id}, # Match by ID
-                {"$set": {"hr_status": "profile_complete", "updated_at": datetime.now(timezone.utc)}}
-            )
-            if status_update_result.modified_count > 0:
-                logger.info(f"HR profile for {updated_user_obj.username} status successfully updated to 'profile_complete'.")
-                # Re-fetch to ensure the returned object has the latest status
-                refetched_user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
-                if refetched_user_doc:
-                    final_return_user = User.model_validate(refetched_user_doc)
-                else:
-                    # This should not happen if update was successful
-                    logger.error(f"CRITICAL: Failed to re-fetch HR user {updated_user_obj.username} after status update to 'profile_complete'.")
-                    # final_return_user remains updated_user_obj which might have stale status
-            else:
-                # This means the update to 'profile_complete' did not modify the document.
-                # It could be because the status was already 'profile_complete' (but the outer if should prevent this log),
-                # or some other DB issue preventing modification.
-                logger.warning(f"HR profile for {updated_user_obj.username} was expected to update to 'profile_complete', but DB update reported 0 modifications. "
-                               f"Matched count: {status_update_result.matched_count}. Current status in DB might still be '{updated_user_obj.hr_status}'.")
-                # Re-fetch to confirm actual DB status if modification was 0
-                current_db_status_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
-                if current_db_status_doc:
-                    final_return_user = User.model_validate(current_db_status_doc) # Return actual current state
-                    logger.warning(f"Actual status in DB for {updated_user_obj.username} after no-modification update: '{final_return_user.hr_status}'")
+    target_status: HrStatus
+    if has_yoe and has_resume:
+        target_status = "profile_complete"
+    elif has_yoe or has_resume:
+        # If profile was already complete or in an active mapping state, don't downgrade to pending_profile.
+        # Only upgrade from a more basic state (like None or initial 'pending_profile') to 'pending_profile'.
+        if updated_user_obj.hr_status in [None, "pending_profile"]: # Assuming None is a possible initial state or if user clears all data
+             target_status = "pending_profile"
         else:
-            logger.info(f"HR {updated_user_obj.username} already has status 'profile_complete'. No status change needed.")
-            # final_return_user is already updated_user_obj which has 'profile_complete'
+             target_status = updated_user_obj.hr_status # Keep current more advanced status
     else:
-        logger.info(f"HR {updated_user_obj.username} does not meet criteria for 'profile_complete' (YoE set: {updated_user_obj.years_of_experience is not None}). Status remains '{updated_user_obj.hr_status}'.")
-        # final_return_user is already updated_user_obj
+        # Neither YoE nor resume. If current status is advanced, keep it. Otherwise, could be None or initial pending_profile.
+        # This logic implies if a user clears YoE and resume, their status doesn't automatically revert from 'profile_complete'.
+        # This might need further business logic refinement if reversion is desired.
+        # For now, if not complete and not partially complete, keep existing status.
+        target_status = updated_user_obj.hr_status if updated_user_obj.hr_status else "pending_profile" # Default to pending_profile if status is None
+
+    final_return_user = updated_user_obj
+
+    # Update hr_status if it needs to change and is allowed to change
+    # (e.g., don't change if already 'mapped' or in some other advanced state unless logic dictates)
+    can_change_status_from = [None, "pending_profile", "profile_complete", "application_pending", "admin_request_pending"] # Statuses that can be overwritten by this logic
+    
+    if updated_user_obj.hr_status in can_change_status_from and updated_user_obj.hr_status != target_status:
+        logger.info(f"HR {updated_user_obj.username} status changing from '{updated_user_obj.hr_status}' to '{target_status}'. YoE: {has_yoe}, Resume: {has_resume}")
+        status_update_result = await db[settings.MONGODB_COLLECTION_USERS].update_one(
+            {"_id": updated_user_obj.id},
+            {"$set": {"hr_status": target_status, "updated_at": datetime.now(timezone.utc)}}
+        )
+        if status_update_result.modified_count > 0:
+            logger.info(f"HR profile for {updated_user_obj.username} status successfully updated to '{target_status}'.")
+            refetched_user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
+            if refetched_user_doc:
+                final_return_user = User.model_validate(refetched_user_doc)
+        else:
+            logger.warning(f"HR profile status update to '{target_status}' reported 0 modifications. Current DB status might be stale or already '{target_status}'.")
+            # Re-fetch to ensure the returned user object has the most current status from DB
+            current_db_user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
+            if current_db_user_doc:
+                 final_return_user = User.model_validate(current_db_user_doc)
+
+    elif updated_user_obj.hr_status == target_status:
+        logger.info(f"HR {updated_user_obj.username} status '{target_status}' is already correct. No change needed. YoE: {has_yoe}, Resume: {has_resume}")
+    else: # Current status is an advanced one (e.g. mapped) that this logic shouldn't override to pending_profile/profile_complete
+        logger.info(f"HR {updated_user_obj.username} status '{updated_user_obj.hr_status}' not changed by profile update. Target based on completion: '{target_status}'. YoE: {has_yoe}, Resume: {has_resume}")
+        
+    final_user_doc_for_log = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": current_hr_user.id}) # Re-fetch for logging
+    if final_user_doc_for_log:
+        logger.info(f"HR {current_hr_user.username} final status before returning from update_hr_profile_details: {final_user_doc_for_log.get('hr_status')}")
+    else:
+        logger.error(f"Could not re-fetch HR user {current_hr_user.username} for final status log.")
+
 
     return HrProfileOut.model_validate(final_return_user)
 
@@ -240,24 +257,48 @@ async def upload_hr_resume(
         if not updated_user_doc:
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve user after resume data update.")
 
-        updated_user_obj = User.model_validate(updated_user_doc)
+        updated_user_obj = User.model_validate(updated_user_doc) # This is the user after resume fields are set
         
-        should_be_profile_complete = bool(updated_user_obj.resume_path) and (updated_user_obj.years_of_experience is not None)
-        
+        # Determine target status based on updated information
+        has_yoe = updated_user_obj.years_of_experience is not None
+        has_resume = bool(updated_user_obj.resume_path) # Should be true here as resume was just uploaded
+
+        target_status: HrStatus
+        if has_yoe and has_resume: # Both present
+            target_status = "profile_complete"
+        elif has_yoe or has_resume: # Only one present (e.g. resume just uploaded, but YoE might be missing)
+             if updated_user_obj.hr_status in [None, "pending_profile"]:
+                 target_status = "pending_profile"
+             else:
+                 target_status = updated_user_obj.hr_status # Keep current more advanced status
+        else: # Should not happen if resume was just uploaded, but as a fallback
+            target_status = updated_user_obj.hr_status if updated_user_obj.hr_status else "pending_profile"
+
         final_user_to_return = updated_user_obj
         
-        if should_be_profile_complete and updated_user_obj.hr_status in ["pending_profile", "profile_complete", None]: # Added None
-            if updated_user_obj.hr_status != "profile_complete":
-                status_update_result = await db[settings.MONGODB_COLLECTION_USERS].update_one(
-                    {"_id": updated_user_obj.id},
-                    {"$set": {"hr_status": "profile_complete", "updated_at": datetime.now(timezone.utc)}}
-                )
-                if status_update_result.modified_count > 0:
-                    logger.info(f"HR profile for {updated_user_obj.username} status updated to profile_complete.")
-                    refetched_user_doc_after_status = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
-                    if refetched_user_doc_after_status:
-                        final_user_to_return = User.model_validate(refetched_user_doc_after_status)
-        
+        can_change_status_from = [None, "pending_profile", "profile_complete", "application_pending", "admin_request_pending"]
+
+        if updated_user_obj.hr_status in can_change_status_from and updated_user_obj.hr_status != target_status:
+            logger.info(f"HR {updated_user_obj.username} status changing from '{updated_user_obj.hr_status}' to '{target_status}' after resume upload. YoE: {has_yoe}, Resume: {has_resume}")
+            status_update_result = await db[settings.MONGODB_COLLECTION_USERS].update_one(
+                {"_id": updated_user_obj.id},
+                {"$set": {"hr_status": target_status, "updated_at": datetime.now(timezone.utc)}}
+            )
+            if status_update_result.modified_count > 0:
+                logger.info(f"HR profile for {updated_user_obj.username} status successfully updated to '{target_status}'.")
+                refetched_user_doc_after_status = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
+                if refetched_user_doc_after_status:
+                    final_user_to_return = User.model_validate(refetched_user_doc_after_status)
+            else:
+                logger.warning(f"HR profile status update to '{target_status}' after resume upload reported 0 modifications.")
+                current_db_user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": updated_user_obj.id})
+                if current_db_user_doc:
+                    final_user_to_return = User.model_validate(current_db_user_doc)
+        elif updated_user_obj.hr_status == target_status:
+             logger.info(f"HR {updated_user_obj.username} status '{target_status}' is already correct after resume upload. No change needed. YoE: {has_yoe}, Resume: {has_resume}")
+        else:
+             logger.info(f"HR {updated_user_obj.username} status '{updated_user_obj.hr_status}' not changed by resume upload. Target based on completion: '{target_status}'. YoE: {has_yoe}, Resume: {has_resume}")
+
         return HrProfileOut.model_validate(final_user_to_return)
 
     except Exception as db_e:
@@ -272,10 +313,13 @@ async def list_admins_for_application(
     current_hr_user: User = Depends(require_hr),
     db: AsyncIOMotorClient = Depends(mongodb.get_db),
 ):
-    if current_hr_user.hr_status != "profile_complete":
+    # Allow viewing admins if profile is complete, pending_profile, or if an application is already pending.
+    # The ability to send a *new* application will be controlled by other logic (e.g., not already mapped, no duplicate to same admin).
+    allowed_view_statuses: List[HrStatus] = ["profile_complete", "pending_profile", "application_pending", "admin_request_pending"]
+    if current_hr_user.hr_status not in allowed_view_statuses:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail=f"Complete profile first (Status: {current_hr_user.hr_status}).",
+            detail=f"Your profile status ({current_hr_user.hr_status}) does not permit viewing the admin list at this time. Please check your profile or pending applications.",
         )
     
     admin_query = {
@@ -332,12 +376,72 @@ async def get_my_sent_applications_to_admins(
     logger.info(f"HR {current_hr_user.username} fetching their sent applications to Admins.")
     try:
         requests_collection = db[settings.MONGODB_COLLECTION_HR_MAPPING_REQUESTS]
-        sent_apps_cursor = requests_collection.find({
-            "requester_id": current_hr_user.id,
-            "request_type": "hr_to_admin_application"
-        })
-        sent_apps_list = await sent_apps_cursor.to_list(length=None)
-        return [HRMappingRequestOut.model_validate(app) for app in sent_apps_list]
+        requests_collection = db[settings.MONGODB_COLLECTION_HR_MAPPING_REQUESTS]
+        
+        pipeline = [
+            {"$match": {
+                "requester_id": current_hr_user.id,
+                "request_type": "application" # Ensure this matches the type set in create_hr_application
+            }},
+            {"$sort": {"created_at": -1}}, # Sort by most recent first
+            {
+                "$lookup": {
+                    "from": settings.MONGODB_COLLECTION_USERS,
+                    "localField": "target_id", # The Admin HR applied to
+                    "foreignField": "_id",
+                    "as": "target_user_info_doc"
+                }
+            },
+            {
+                "$unwind": {
+                    "path": "$target_user_info_doc",
+                    "preserveNullAndEmptyArrays": True # Keep app even if admin somehow deleted
+                }
+            },
+            # Lookup for requester_info (HR themselves) - might be useful for consistency
+            {
+                "$lookup": {
+                    "from": settings.MONGODB_COLLECTION_USERS,
+                    "localField": "requester_id",
+                    "foreignField": "_id",
+                    "as": "requester_user_info_doc"
+                }
+            },
+            {
+                "$unwind": {
+                    "path": "$requester_user_info_doc",
+                    "preserveNullAndEmptyArrays": True 
+                }
+            },
+            {"$project": {
+                "_id": 1, "request_type": 1, "status": 1, "created_at": 1, "updated_at": 1,
+                "requester_id": 1, "target_id": 1, "requester_role": 1, "target_role": 1, # Include roles
+                "requester_info": {
+                    "id": "$requester_user_info_doc._id",
+                    "username": "$requester_user_info_doc.username",
+                    "email": "$requester_user_info_doc.email",
+                    "role": "$requester_user_info_doc.role"
+                },
+                "target_info": { # This is the Admin's info
+                    "id": "$target_user_info_doc._id",
+                    "username": "$target_user_info_doc.username",
+                    "email": "$target_user_info_doc.email",
+                    "role": "$target_user_info_doc.role"
+                }
+            }}
+        ]
+        sent_apps_list = await requests_collection.aggregate(pipeline).to_list(length=None)
+        
+        # Validate each item with HRMappingRequestOut, which expects these populated fields
+        validated_apps = []
+        for app_data in sent_apps_list:
+            try:
+                validated_apps.append(HRMappingRequestOut.model_validate(app_data))
+            except Exception as val_err:
+                logger.error(f"Validation error for application data {app_data.get('_id')}: {val_err}", exc_info=True)
+                # Optionally skip or handle error for this specific app
+        
+        return validated_apps
     except Exception as e:
         logger.error(f"Error fetching HR's sent applications: {e}", exc_info=True)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to fetch sent applications.")
@@ -352,13 +456,19 @@ async def accept_admin_request(
     logger.info(f"HR {current_hr_user.username} accepting request {request_id}")
     invitation_service = InvitationService(db=db)
     try:
-        if await invitation_service.accept_request_or_application(request_oid, current_hr_user):
-            updated_hr_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": current_hr_user.id})
-            if not updated_hr_doc:
-                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="HR user not found after accepting request.")
-            return HrProfileOut.model_validate(updated_hr_doc)
-        else:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Acceptance failed, request may not be valid or pending.")
+        updated_request = await invitation_service.hr_respond_to_admin_invitation(
+            request_id=request_oid, 
+            hr_user=current_hr_user, 
+            action="accept"
+        )
+        # After successful acceptance and mapping, the HR user's profile is updated.
+        # Re-fetch the HR user to return their latest profile, including mapping status.
+        updated_hr_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": current_hr_user.id})
+        if not updated_hr_doc:
+            # This would be unusual if the service method succeeded
+            logger.error(f"Failed to re-fetch HR user {current_hr_user.id} after accepting admin invitation {request_id}.")
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve HR profile after request acceptance.")
+        return HrProfileOut.model_validate(updated_hr_doc)
     except InvitationError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
@@ -375,15 +485,100 @@ async def reject_admin_request(
     logger.info(f"HR {current_hr_user.username} rejecting request {request_id}")
     invitation_service = InvitationService(db=db)
     try:
-        if await invitation_service.reject_request_or_application(request_oid, current_hr_user):
-            return {"message": f"Request {request_id} rejected."}
-        else:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Rejection failed, request may not be valid or pending.")
+        updated_request = await invitation_service.hr_respond_to_admin_invitation(
+            request_id=request_oid,
+            hr_user=current_hr_user,
+            action="reject"
+        )
+        return {"message": f"Request {request_id} successfully rejected. Status: {updated_request.status}"}
     except InvitationError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
         logger.error(f"Error rejecting request {request_id}: {e}", exc_info=True)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error rejecting admin request.")
+
+@router.post("/applications/{request_id}/confirm-mapping", response_model=HrProfileOut)
+async def hr_confirm_chosen_admin_application(
+    request_id: str,
+    current_hr_user: User = Depends(require_hr),
+    db: AsyncIOMotorClient = Depends(mongodb.get_db),
+):
+    request_oid = get_object_id(request_id)
+    logger.info(f"HR {current_hr_user.username} attempting to confirm mapping via application {request_id}.")
+    invitation_service = InvitationService(db=db)
+    try:
+        await invitation_service.hr_confirm_mapping_choice(
+            request_id=request_oid,
+            hr_user=current_hr_user
+        )
+        # After successful confirmation and mapping, return the updated HR profile.
+        updated_hr_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": current_hr_user.id})
+        if not updated_hr_doc:
+            logger.error(f"Failed to re-fetch HR user {current_hr_user.id} after confirming mapping for request {request_id}.")
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve HR profile after confirming mapping.")
+        return HrProfileOut.model_validate(updated_hr_doc)
+    except InvitationError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error confirming mapping for request {request_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error confirming mapping choice.")
+
+@router.post("/applications/{request_id}/cancel", response_model=HRMappingRequestOut)
+async def hr_cancel_own_application(
+    request_id: str,
+    current_hr_user: User = Depends(require_hr),
+    db: AsyncIOMotorClient = Depends(mongodb.get_db),
+):
+    request_oid = get_object_id(request_id)
+    logger.info(f"HR {current_hr_user.username} attempting to cancel application {request_id}.")
+    invitation_service = InvitationService(db=db)
+    try:
+        updated_request = await invitation_service.hr_cancel_application(
+            request_id=request_oid,
+            hr_user=current_hr_user
+        )
+        return HRMappingRequestOut.model_validate(updated_request)
+    except InvitationError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error cancelling application {request_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error cancelling application.")
+
+@router.get("/me/approved-applications", response_model=List[HRMappingRequestOut])
+async def get_my_admin_approved_applications(
+    current_hr_user: User = Depends(require_hr),
+    db: AsyncIOMotorClient = Depends(mongodb.get_db),
+):
+    logger.info(f"HR {current_hr_user.username} fetching their applications approved by Admins.")
+    try:
+        requests_collection = db[settings.MONGODB_COLLECTION_HR_MAPPING_REQUESTS]
+        # Find applications made by this HR that an Admin has approved
+        approved_apps_cursor = requests_collection.find({
+            "requester_id": current_hr_user.id,
+            "request_type": "application", # Application from HR to Admin
+            "status": "admin_approved"     # Status indicating Admin approved it
+        })
+        approved_apps_list = await approved_apps_cursor.to_list(length=None)
+        
+        # Optionally enrich with target_info (Admin info) if not already done by a pipeline
+        # For simplicity, assuming HRMappingRequestOut can be directly validated
+        # or that the frontend will handle fetching Admin details if needed separately.
+        # The HRMappingRequestOut schema includes requester_info and target_info.
+        # We might need a similar aggregation pipeline as in get_pending_applications_for_admin
+        # if detailed info is not directly on the document or needs to be fresh.
+        # For now, let's assume the documents are sufficient or frontend handles enrichment.
+        
+        # A more robust way would be to use an aggregation similar to other get request endpoints
+        # to ensure requester_info and target_info are populated correctly.
+        # This is a simplified version for now.
+        
+        # TODO: Consider adding an aggregation pipeline here to populate target_info (Admin)
+        # similar to get_pending_applications_for_admin if needed.
+        
+        return [HRMappingRequestOut.model_validate(app) for app in approved_apps_list]
+    except Exception as e:
+        logger.error(f"Error fetching HR's admin-approved applications: {e}", exc_info=True)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to fetch admin-approved applications.")
 
 @router.post("/unmap", response_model=HrProfileOut)
 async def unmap_from_admin(
