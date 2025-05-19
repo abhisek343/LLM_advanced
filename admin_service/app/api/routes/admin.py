@@ -110,159 +110,18 @@ async def get_user_by_id(
     logger.info(f"Admin {admin_user.username} requested user with ID: {user_id}")
     user_oid = get_object_id(user_id)
     user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": user_oid})
+
     if not user_doc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found.")
+
+    # Prevent admin from fetching details of another admin, unless it's themselves
+    if user_doc.get("role") == "admin" and user_doc.get("_id") != admin_user.id:
+        logger.warning(f"Admin {admin_user.username} attempted to fetch details of another admin {user_id}.")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Administrators cannot view details of other administrators.")
+        
     return UserOut.model_validate(user_doc)
 
-@router.patch("/users/{user_id_to_update}/status", response_model=UserOut, dependencies=[Depends(verify_admin_user)]) # Added specific dependency
-async def update_user_activation_status_by_admin(
-    user_id_to_update: str,
-    status_update: UserActivationStatusUpdate,
-    admin_user: User = Depends(verify_admin_user), # Param injection
-    db: AsyncIOMotorClient = Depends(mongodb.get_db),
-):
-    logger.info(f"Admin {admin_user.username} attempting to update activation status for user ID: {user_id_to_update} to {status_update.is_active}")
-    target_user_oid = get_object_id(user_id_to_update)
-
-    if target_user_oid == admin_user.id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Administrators cannot change their own activation status via this endpoint."
-        )
-
-    user_to_update = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": target_user_oid})
-    if not user_to_update:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id_to_update} not found."
-        )
-
-    if user_to_update.get("role") == "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Activation status of other administrators cannot be changed."
-        )
-
-    update_data = {
-        "$set": {
-            "is_active": status_update.is_active,
-            "updated_at": datetime.now(timezone.utc)
-        }
-    }
-    result = await db[settings.MONGODB_COLLECTION_USERS].update_one(
-        {"_id": target_user_oid}, update_data
-    )
-
-    if result.matched_count == 0:
-        # Should not happen if find_one above succeeded, but as a safeguard
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id_to_update} not found during update.")
-    
-    if result.modified_count == 0 and user_to_update.get("is_active") == status_update.is_active:
-        # No actual change was made because the status was already set to the desired value
-        logger.info(f"User {user_id_to_update} activation status already {status_update.is_active}. No change made.")
-    elif result.modified_count == 0:
-         logger.error(f"Failed to update activation status for user {user_id_to_update} despite matching document.")
-         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update user status.")
-
-
-    updated_user_doc = await db[settings.MONGODB_COLLECTION_USERS].find_one({"_id": target_user_oid})
-    if not updated_user_doc: # Should ideally not happen
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve updated user document.")
-        
-    return UserOut.model_validate(updated_user_doc)
-
-@router.delete("/users/{user_id_to_delete}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(verify_admin_user)]) # Added specific dependency
-async def delete_user(
-    user_id_to_delete: str,
-    admin_user: User = Depends(verify_admin_user), # Param injection
-    db: AsyncIOMotorClient = Depends(mongodb.get_db),
-):
-    """
-    Deletes a specified user by ID. Prevents self-delete or deleting other Admins.
-    If deleting an HR user, un-assigns their candidates.
-    """
-    logger.warning(
-        f"Admin {admin_user.username} attempting to delete user ID: {user_id_to_delete}"
-    )
-    target_user_oid = get_object_id(user_id_to_delete)
-
-    if target_user_oid == admin_user.id:
-        raise HTTPException(
-            status_code=403, detail="Administrators cannot delete their own account."
-        )
-
-    # Fetch target user *once*
-    target_user = await db[settings.MONGODB_COLLECTION_USERS].find_one(
-        {"_id": target_user_oid}
-    )
-    if not target_user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id_to_delete} not found.",
-        )
-
-    target_role = target_user.get("role")
-    if target_role == "admin":
-        raise HTTPException(
-            status_code=403,
-            detail="Administrators cannot delete other administrator accounts.",
-        )
-
-    # --- Perform deletion and related actions ---
-    try:
-        # ** Un-assign Candidates if deleting an HR user **
-        if target_role == "hr":
-            logger.info(
-                f"Deleting HR user {target_user_oid}. Un-assigning their candidates."
-            )
-            unassign_result = await db[settings.MONGODB_COLLECTION_USERS].update_many(
-                # Find candidates assigned to this specific HR
-                {"role": "candidate", "assigned_hr_id": target_user_oid},
-                # Reset their assignment and status
-                {
-                    "$set": {
-                        "assigned_hr_id": None,
-                        "mapping_status": "pending_assignment",  # Back to pending assignment state
-                        "updated_at": datetime.now(timezone.utc),
-                    }
-                },
-            )
-            logger.info(
-                f"Unassigned {unassign_result.modified_count} candidates previously assigned to HR {target_user_oid}."
-            )
-            # Optional: Delete pending applications/requests involving this HR?
-            # await db["hr_mapping_requests"].delete_many({"$or": [{"requester_id": target_user_oid}, {"target_id": target_user_oid}]})
-
-        # ** Delete the target user **
-        delete_result = await db[settings.MONGODB_COLLECTION_USERS].delete_one(
-            {"_id": target_user_oid}
-        )
-
-        if delete_result.deleted_count == 1:
-            logger.info(
-                f"Successfully deleted user {user_id_to_delete} (Role: {target_role}) by admin {admin_user.username}."
-            )
-            return Response(status_code=status.HTTP_204_NO_CONTENT)
-        else:
-            # This case implies the user existed moments ago but couldn't be deleted (rare)
-            logger.error(
-                f"Delete operation failed for user {user_id_to_delete} despite finding user."
-            )
-            raise HTTPException(
-                status_code=500, detail="User found but could not be deleted."
-            )
-
-    except Exception as e:
-        logger.error(
-            f"Error during user deletion or candidate un-assignment (ID: {user_id_to_delete}): {e}",
-            exc_info=True,
-        )
-        raise HTTPException(
-            status_code=500, detail="An error occurred during the deletion process."
-        )
-
-
-# --- HR Application/Mapping Management Endpoints --- (Integration mostly done)
+# --- HR Application/Mapping Management Endpoints ---
 
 
 @router.get("/hr-applications", response_model=List[HRMappingRequestOut], dependencies=[Depends(verify_admin_user)]) # Added specific dependency
