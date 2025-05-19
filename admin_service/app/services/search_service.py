@@ -134,12 +134,27 @@ class SearchService:
         self,
         keyword: Optional[str] = None,
         yoe_min: Optional[int] = None,
-        status_filter: Optional[HrStatus] = "profile_complete", # type: ignore
+        status_filter: Optional[HrStatus] = "unmapped", # Default to unmapped
         limit: int = 20,
     ) -> List[RankedHR]:
         logger.info(f"Searching HR profiles. Status: {status_filter}, Keyword: {keyword}, YoE Min: {yoe_min}")
         query: Dict[str, Any] = {"role": "hr"}
-        if status_filter: query["hr_status"] = status_filter
+
+        if status_filter:
+            if status_filter == "inactive":
+                query["hr_status"] = "inactive"
+                # For 'inactive' status, we might not want to filter by is_active: True,
+                # as an inactive HR could have their main account active or inactive.
+                # If hr_status: "inactive" implies the user account is also inactive,
+                # then we might add query["is_active"] = False.
+                # For now, just filtering by hr_status = "inactive".
+            elif status_filter in ["unmapped", "mapped", "pending_profile", "application_pending", "admin_request_pending"]:
+                query["hr_status"] = status_filter
+                query["is_active"] = True # Ensure user account is active for these operational statuses
+            # If status_filter is something else (e.g., "all" from frontend, which won't match HrStatus enum),
+            # it won't be applied here, effectively searching all HRs if no other specific status is matched.
+            # This is fine as the frontend sends 'all' as a string not in HrStatus.
+
         if yoe_min is not None: query["years_of_experience"] = {"$gte": yoe_min}
         
         projection = None

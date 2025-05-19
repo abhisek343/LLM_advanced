@@ -12,11 +12,12 @@ CandidateMappingStatus = Literal[
 ]
 
 HrStatus = Literal[
-    "pending_profile", 
-    "profile_complete", 
-    "application_pending", 
-    "admin_request_pending", 
-    "mapped" 
+    "pending_profile",        # HR has registered, profile not yet complete
+    "unmapped",               # Profile complete, not mapped to any admin (available for mapping/invitation)
+    "application_pending",    # HR has applied to an admin, pending admin approval
+    "admin_request_pending",  # Admin has invited HR, pending HR approval
+    "mapped",                 # HR is mapped to an admin
+    "inactive"                # HR user is specifically marked as inactive by an admin or system process
 ]
 
 try:
@@ -36,10 +37,11 @@ class User(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
     hashed_password: str = Field(...) 
-    role: UserRole 
+    role: UserRole
+    is_active: bool = Field(default=True, description="Whether the user account is active") # Ensure is_active is present
 
     mapping_status: Optional[CandidateMappingStatus] = Field(
-        default=None, 
+        default=None,
         description="Candidate's status in the HR mapping workflow"
     )
     assigned_hr_id: Optional[ObjectId] = Field(
