@@ -6,7 +6,7 @@ import { getCurrentUser as fetchCurrentUserApi } from '../services/authAPI'; // 
 // The UserDetails type should align with ZustandUser from authStore
 export type UserDetails = ZustandUser;
 
-interface AuthContextType {
+export interface AuthContextType {
   currentUser: UserDetails | null;
   isAuthenticated: boolean;
   isLoading: boolean; // Keep local loading state for initial auth check
@@ -16,7 +16,7 @@ interface AuthContextType {
   setCurrentUser: (user: UserDetails | null) => void; // Matches Zustand store's setCurrentUser
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const storeCurrentUser = useCurrentUser();

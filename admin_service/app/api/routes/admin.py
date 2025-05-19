@@ -151,49 +151,47 @@ async def get_hr_applications(
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to fetch HR applications.")
 
 
-@router.post("/hr-applications/{application_id}/accept", response_model=Dict[str, str], dependencies=[Depends(verify_admin_user)]) # Added specific dependency
-async def accept_hr_application(
+@router.post("/hr-applications/{application_id}/approve", response_model=HRMappingRequestOut, dependencies=[Depends(verify_admin_user)])
+async def approve_hr_application(
     application_id: str,
-    admin_user: User = Depends(verify_admin_user), # Param injection
+    admin_user: User = Depends(verify_admin_user),
     db: AsyncIOMotorClient = Depends(mongodb.get_db),
 ):
-    # ... (Implementation uses InvitationService) ...
     logger.info(
-        f"Admin {admin_user.username} accepting application ID {application_id}"
+        f"Admin {admin_user.username} approving application ID {application_id}"
     )
     app_oid = get_object_id(application_id)
     invitation_service = InvitationService(db=db)
     try:
-        if await invitation_service.accept_request_or_application(app_oid, admin_user):
-            return {"message": f"Application {application_id} accepted."}
-        else:
-            raise HTTPException(status_code=500, detail="Acceptance failed.")
+        updated_request = await invitation_service.admin_process_hr_application(
+            request_id=app_oid, admin_user=admin_user, action="approve"
+        )
+        return HRMappingRequestOut.model_validate(updated_request)
     except InvitationError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
         logger.error(
-            f"Error accepting application {application_id}: {e}", exc_info=True
+            f"Error approving application {application_id}: {e}", exc_info=True
         )
-        raise HTTPException(status_code=500)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to approve application.")
 
 
-@router.post("/hr-applications/{application_id}/reject", response_model=Dict[str, str], dependencies=[Depends(verify_admin_user)]) # Added specific dependency
+@router.post("/hr-applications/{application_id}/reject", response_model=HRMappingRequestOut, dependencies=[Depends(verify_admin_user)])
 async def reject_hr_application(
     application_id: str,
-    admin_user: User = Depends(verify_admin_user), # Param injection
+    admin_user: User = Depends(verify_admin_user),
     db: AsyncIOMotorClient = Depends(mongodb.get_db),
 ):
-    # ... (Implementation uses InvitationService) ...
     logger.info(
         f"Admin {admin_user.username} rejecting application ID {application_id}"
     )
     app_oid = get_object_id(application_id)
     invitation_service = InvitationService(db=db)
     try:
-        if await invitation_service.reject_request_or_application(app_oid, admin_user):
-            return {"message": f"Application {application_id} rejected."}
-        else:
-            raise HTTPException(status_code=500, detail="Rejection failed.")
+        updated_request = await invitation_service.admin_process_hr_application(
+            request_id=app_oid, admin_user=admin_user, action="reject"
+        )
+        return HRMappingRequestOut.model_validate(updated_request)
     except InvitationError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

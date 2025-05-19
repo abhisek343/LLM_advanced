@@ -177,7 +177,7 @@ const ManageAdminConnectionsPage: React.FC = () => {
   const overallErrorMessage = profileError?.message || adminsError?.message || myAppsError?.message || incomingReqsError?.message || adminApprovedAppsError?.message || generalError;
 
   if (overallLoading) {
-    return <div className={styles.pageContainer} style={{ textAlign: 'center', paddingTop: '50px' }}><Spinner size="large" /><p>Loading connections...</p></div>;
+    return <div className={styles.pageContainer} style={{ textAlign: 'center' as any, paddingTop: '50px' }}><Spinner size="large" /><p>Loading connections...</p></div>;
   }
   
   const hrProfileStatusForManager: HrProfileForMapping = profileData ? {

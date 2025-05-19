@@ -110,7 +110,7 @@ const HRProfilePage: React.FC = () => {
 
   if (isLoadingProfile) {
     return (
-      <div className={styles.profileContainer} style={{ textAlign: 'center', paddingTop: '50px' }}>
+      <div className={styles.profileContainer} style={{ textAlign: 'center' as any, paddingTop: '50px' }}>
         <Spinner size="large" />
         <p>Loading profile...</p>
       </div>

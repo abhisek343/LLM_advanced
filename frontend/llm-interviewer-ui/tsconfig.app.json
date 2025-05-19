@@ -16,7 +16,7 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client"], // Ensure vitest/globals is here for IDE, tsc might still need exclude for build script
+    // "types": ["vite/client", "react", "react-dom"], // Ensure vitest/globals is here for IDE, tsc might still need exclude for build script
 
     /* Linting */
     "strict": true,

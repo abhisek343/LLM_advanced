@@ -120,7 +120,7 @@ const HRAssignedCandidatesPage: React.FC = () => {
   ];
 
   if (isLoadingAuth || isLoadingCandidates) {
-    return <div className={styles.pageContainer} style={{ textAlign: 'center', paddingTop: '50px' }}><Spinner size="large" /><p>Loading assigned candidates...</p></div>;
+    return <div className={styles.pageContainer} style={{ textAlign: 'center' as any, paddingTop: '50px' }}><Spinner size="large" /><p>Loading assigned candidates...</p></div>;
   }
 
   if (error) {
@@ -159,13 +159,13 @@ const HRAssignedCandidatesPage: React.FC = () => {
             <Input 
                 label="Subject" 
                 value={inviteMessageSubject} 
-                onChange={e => setInviteMessageSubject(e.target.value)} 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInviteMessageSubject(e.target.value)} 
                 disabled={isSendingInvitation}
             />
             <Textarea 
                 label="Message Content" 
                 value={inviteMessageContent} 
-                onChange={e => setInviteMessageContent(e.target.value)} 
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInviteMessageContent(e.target.value)} 
                 rows={10} 
                 disabled={isSendingInvitation}
             />

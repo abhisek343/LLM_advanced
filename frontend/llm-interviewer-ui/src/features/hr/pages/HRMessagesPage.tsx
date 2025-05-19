@@ -132,7 +132,7 @@ const HRMessagesPage: React.FC = () => {
 
 
   if (isLoadingAuth || isLoadingMessages) {
-    return <div className={styles.pageContainer} style={{textAlign: 'center', paddingTop: '50px'}}><Spinner size="large" /><p>Loading messages...</p></div>;
+    return <div className={styles.pageContainer} style={{textAlign: 'center' as any, paddingTop: '50px'}}><Spinner size="large" /><p>Loading messages...</p></div>;
   }
 
   if (messagesError) {
@@ -213,13 +213,13 @@ const HRMessagesPage: React.FC = () => {
             <Input 
                 label="Subject" 
                 value={newMessageSubject} 
-                onChange={e => setNewMessageSubject(e.target.value)} 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewMessageSubject(e.target.value)} 
                 disabled={isSendingMessage || (modalMode === 'compose' && !currentUser?.admin_manager_id)} 
             />
             <Textarea 
                 label="Content" 
                 value={newMessageContent} 
-                onChange={e => setNewMessageContent(e.target.value)} 
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNewMessageContent(e.target.value)} 
                 rows={10} 
                 disabled={isSendingMessage || (modalMode === 'compose' && !currentUser?.admin_manager_id)} 
             />

@@ -7,10 +7,9 @@ import Card from '../../../components/common/Card'; // Assuming a generic Card c
 interface CandidateCardProps {
   candidate: CandidateProfileOut;
   onInvite: (candidate: CandidateProfileOut) => void; // Callback when "Send Invitation" is clicked
-  // Add other potential actions, e.g., onViewDetails
-  actionInProgress?: boolean; // To disable button during action
+// Add other potential actions, e.g., onViewDetails
+actionInProgress?: boolean; // To disable button during action
 }
-
 const CandidateCard: React.FC<CandidateCardProps> = ({ candidate, onInvite, actionInProgress }) => {
   const { username, email, candidate_status, created_at } = candidate;
 

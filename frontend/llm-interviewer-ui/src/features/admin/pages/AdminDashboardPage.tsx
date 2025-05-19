@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import MainLayout from '../../../components/layout/MainLayout';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -17,8 +17,11 @@ const AdminDashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pageError, setPageError] = useState<string | null>(null);
 
-  const fetchData = async () => {
-    if (!currentUser || currentUser.role !== 'admin') return;
+  const fetchData = useCallback(async () => {
+    if (!currentUser || currentUser.role !== 'admin') {
+      setIsLoading(false); // Ensure loading stops if user is not admin
+      return;
+    }
     setIsLoading(true);
     setPageError(null);
     try {
@@ -50,11 +53,11 @@ const AdminDashboardPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentUser]); // Dependencies for useCallback
 
   useEffect(() => {
     fetchData();
-  }, [currentUser]);
+  }, [fetchData]); // Dependency is now the memoized fetchData
 
   // Approve/Reject HR logic is moved to AdminHRManagementPage
   // This dashboard will now primarily show stats and quick links

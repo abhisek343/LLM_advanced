@@ -57,7 +57,7 @@ const AdminInterviewsOverviewPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentUser, filters, setIsLoading, setError, setInterviews, setTotalInterviews, ITEMS_PER_PAGE]);
+  }, [currentUser, filters, setIsLoading, setError, setInterviews, setTotalInterviews]);
 
   useEffect(() => {
     fetchInterviews(currentPage);
