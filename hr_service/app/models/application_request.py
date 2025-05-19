@@ -8,7 +8,21 @@ from bson import ObjectId
 from ..schemas.user import PyObjectIdStr, UserRole # Adjusted import
 
 RequestMappingType = Literal["application", "request"]
-RequestMappingStatus = Literal["pending", "accepted", "rejected", "cancelled"]
+# Using the more comprehensive status list from the schemas file
+RequestMappingStatus = Literal[
+    "pending",
+    "accepted",
+    "rejected",
+    "cancelled",
+    "pending_admin_approval",
+    "admin_approved",
+    "admin_rejected",
+    "hr_confirmed_mapping",
+    "hr_rejected_invitation",
+    "hr_cancelled_application",
+    "request_pending_hr_approval",
+    "superceded"
+]
 
 
 class HRMappingRequest(BaseModel):
