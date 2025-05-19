@@ -1,0 +1,50 @@
+# Use an official Node.js runtime as a parent image
+# Choose a version compatible with your project (e.g., 18-alpine, 20-alpine)
+FROM node:18-alpine AS builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# --- Frontend Application Setup ---
+# Copy package.json and package-lock.json (or yarn.lock) for the frontend app
+COPY frontend/llm-interviewer-ui/package.json frontend/llm-interviewer-ui/package-lock.json* frontend/llm-interviewer-ui/yarn.lock* ./frontend/llm-interviewer-ui/
+# If yarn.lock is present, it will be copied; otherwise, package-lock.json will be.
+# The '*' handles cases where one or the other might not exist.
+
+# Install frontend dependencies
+# This step leverages Docker layer caching. It only re-runs if package files change.
+RUN cd frontend/llm-interviewer-ui && npm install --legacy-peer-deps
+# Or, if you use yarn:
+# RUN cd frontend/llm-interviewer-ui && yarn install --frozen-lockfile
+
+# Copy the rest of the frontend application code
+COPY frontend/llm-interviewer-ui/ ./frontend/llm-interviewer-ui/
+
+# --- Test Files Setup ---
+# Copy the test project's package.json and install its specific dependencies
+COPY frontend_mvp_tests/package.json frontend_mvp_tests/package-lock.json* ./frontend_mvp_tests/
+RUN cd frontend_mvp_tests && npm install --legacy-peer-deps
+
+# Copy the rest of the test files into the container
+COPY frontend_mvp_tests/ ./frontend_mvp_tests/
+
+# Set the working directory to where 'npm test' should be run (main frontend app directory)
+WORKDIR /app/frontend/llm-interviewer-ui
+
+# Command to run the tests
+# This uses the "test" script from `frontend/llm-interviewer-ui/package.json`, which now points to Jest.
+CMD ["npm", "run", "test"]
+
+# --- Notes for User ---
+# 1. Ensure `frontend/llm-interviewer-ui/package.json` includes all devDependencies needed for testing
+#    (e.g., jest, ts-jest, @types/jest, @testing-library/react, @testing-library/jest-dom, identity-obj-proxy, etc.).
+#    The `package.json` has been updated to include `jest` and `ts-jest`.
+# 2. A `frontend/llm-interviewer-ui/jest.config.js` file has been created. It is configured to:
+#    a. Find test files in `../frontend_mvp_tests/` (relative to `frontend/llm-interviewer-ui/`) using the `roots` option.
+#    b. Use `ts-jest` for transforming TypeScript files.
+#    c. Set `testEnvironment: 'jsdom'`.
+#    d. Handle CSS Modules using `identity-obj-proxy` and static assets using a mock file.
+# 3. The persistent TypeScript errors (e.g., "Cannot find module 'react'") should now be
+#    resolved by the new Jest configuration and updated dependencies. If issues persist,
+#    ensure that `npm install` (or `yarn install`) has been run in the `frontend/llm-interviewer-ui`
+#    directory after the `package.json` changes.

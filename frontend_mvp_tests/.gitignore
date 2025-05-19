@@ -1,0 +1,7 @@
+# Ignored files for frontend_mvp_tests
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.env.development
+.gitkeep

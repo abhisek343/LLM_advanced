@@ -1,0 +1,26 @@
+{
+  "extends": "../frontend/llm-interviewer-ui/tsconfig.test.json",
+  "compilerOptions": {
+    "baseUrl": ".", // Sets the base directory for module resolution to frontend_mvp_tests
+    "paths": {
+      // Adjust path to the main app's src directory for @/ alias
+      "@/*": ["../frontend/llm-interviewer-ui/src/*"],
+      // Also allow direct relative paths to the main app's src if used
+      "frontend/llm-interviewer-ui/src/*": ["../frontend/llm-interviewer-ui/src/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types", // Prioritize local @types
+      "../frontend/llm-interviewer-ui/node_modules/@types" // Fallback to main app's @types
+    ]
+  },
+  "include": [
+    // These paths are relative to this tsconfig.json (i.e., within frontend_mvp_tests)
+    "./**/*.ts",
+    "./**/*.tsx",
+    "./__mocks__/**/*.ts", // Ensure mocks are included
+    "./__mocks__/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules" // Standard exclusion from this local node_modules
+  ]
+}
