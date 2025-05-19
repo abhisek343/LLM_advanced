@@ -1,0 +1,28 @@
+.dashboardContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.dashboardHeader {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.dashboardHeader h1 {
+  margin: 0 0 5px 0;
+  font-size: 2em;
+  color: #333;
+}
+
+.dashboardHeader p {
+  margin: 0;
+  font-size: 1.1em;
+  color: #555;
+}
+
+.dashboardWidgetsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}

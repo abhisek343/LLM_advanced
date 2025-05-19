@@ -1,0 +1,115 @@
+.formContainer {
+  /* Styles for the form container itself, if needed, but pages will use .page-container */
+}
+
+.errorMessage {
+  color: #d9534f; /* Bootstrap's danger color */
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.submitButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.linkText {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.linkText a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.linkText a:hover {
+  text-decoration: underline;
+}
+
+.inlineLink {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem; /* Match general link text size */
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
+}
+
+/* Password Strength Indicator Styles */
+.passwordStrengthContainer {
+  display: flex;
+  align-items: center;
+  margin-top: -0.5rem; /* Pull it closer to the password input */
+  margin-bottom: 1rem;
+  height: 20px; /* Fixed height for container */
+}
+
+.strengthBar {
+  height: 8px; /* Height of the visual bar */
+  border-radius: 4px;
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  background-color: #e9ecef; /* Default bar background */
+}
+
+.strengthText {
+  margin-left: 0.75rem;
+  font-size: 0.8rem;
+  color: #555;
+  min-width: 70px; /* Ensure text doesn't jump around too much */
+  text-align: left;
+}
+
+.strengthVeryWeak {
+  background-color: #dc3545 !important; /* Red */
+}
+.strengthWeak {
+  background-color: #ffc107 !important; /* Orange/Yellow */
+}
+.strengthMedium {
+  background-color: #28a745 !important; /* Light Green */
+}
+.strengthStrong {
+  background-color: #198754 !important; /* Dark Green */
+}

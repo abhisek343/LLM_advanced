@@ -1,0 +1,211 @@
+.profileContainer {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profileContainer h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.profileForm {
+  /* Styles for the form itself */
+}
+
+.formSection {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.formSection h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="email"],
+.formGroup textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.formGroup input[type="email"][disabled] {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.formGroup textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submitButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745; /* Green for save/upload */
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.submitButton:disabled {
+  background-color: #6c757d;
+}
+
+.resumeSection {
+  margin-top: 2rem;
+}
+
+.resumeSection input[type="file"] {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skillsPreview {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.skillsPreview strong {
+  color: #333;
+}
+
+.errorMessage,
+.successMessage {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.errorMessage {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.successMessage {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* Styles for Experience Section */
+.listSection {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--spacing-sm);
+}
+
+.listItem {
+  background-color: #f9f9f9; /* Using existing light background */
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  display: flex; /* For aligning details and actions */
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.experienceDetails strong {
+  display: block;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.experienceDetails p {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-xs);
+}
+
+.experienceActions {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically for now */
+  gap: var(--spacing-sm);
+  margin-left: var(--spacing-md); /* Space from details */
+}
+
+.experienceFormSection {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px dashed var(--color-border);
+}
+
+.experienceFormSection h3 {
+  margin-bottom: var(--spacing-md);
+  font-size: 1.1rem;
+}
+
+.formActions {
+  margin-top: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+/* Styles for extracted skills display */
+.extractedSkillsTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; /* Spacing between tags */
+  margin-top: 0.5rem;
+}
+
+.extractedSkillTag {
+  background-color: var(--secondary-color-light, #e9ecef); /* A light, neutral background */
+  color: var(--secondary-color-dark, #495057); /* Darker text for contrast */
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-large, 1rem); /* Pill-shaped tags */
+  font-size: 0.85rem;
+  border: 1px solid var(--border-color-light, #ced4da);
+}

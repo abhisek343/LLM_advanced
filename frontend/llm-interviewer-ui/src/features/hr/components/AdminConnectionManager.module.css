@@ -1,0 +1,230 @@
+.managerContainer {
+  /* background-color: #f9f9f9; */ /* Removed, page background will show */
+  /* border: 1px solid #e0e0e0; */ /* Removed, cards will have borders */
+  /* border-radius: 8px; */ /* Removed */
+  /* padding: 25px; */ /* Removed, cards will handle internal padding */
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); */ /* Removed */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between status card, tabs, and tab content card */
+}
+
+.statusCard {
+  /* Uses Card component styles */
+  /* Specific overrides if needed */
+}
+
+.currentMappingSection {
+  /* margin-bottom: 25px; */ /* Handled by managerContainer gap */
+  /* padding: 15px; */ /* Card handles padding */
+  /* background-color: #e9ecef; */ /* Card handles background */
+  /* border: 1px solid #ced4da; */ /* Card handles border */
+  /* border-radius: 6px; */ /* Card handles radius */
+}
+
+.currentMappingSection h3 { /* This will be the Card title, styled by Card component */
+  /* margin-top: 0; */
+  /* margin-bottom: 10px; */
+  /* color: #333; */
+}
+
+.currentMappingSection p {
+  margin: 0 0 10px 0;
+  color: #555;
+}
+.currentMappingSection p:last-child {
+  margin-bottom: 0;
+}
+
+.unmapButton {
+  /* background-color: #dc3545; */ /* Using Button variant="danger" */
+  /* color: white; */
+  margin-top: 10px; /* Added some top margin */
+}
+/* .unmapButton:hover {
+  background-color: #c82333;
+} */
+
+.tabs {
+  display: flex;
+  /* margin-bottom: 20px; */ /* Handled by managerContainer gap */
+  border-bottom: 2px solid #dee2e6;
+  background-color: #fff; /* Give tabs a background if they are outside a card */
+  padding: 0 15px; /* Padding for the tab bar itself */
+  border-radius: 8px 8px 0 0; /* Rounded top corners if it's distinct */
+}
+
+.tabButton,
+.activeTabButton {
+  padding: 12px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 1em;
+  color: #007bff;
+  border-bottom: 3px solid transparent; /* For inactive tabs, increased thickness */
+  margin-right: 5px; /* Spacing between tab buttons */
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: -2px; /* Align with the tab bar's border */
+}
+
+.tabButton:hover {
+  color: #0056b3;
+  border-bottom-color: #cce5ff; /* Light blue underline on hover for inactive */
+}
+
+.activeTabButton {
+  color: #0056b3; /* Darker blue for active tab text */
+  border-bottom: 3px solid #007bff; /* Active tab indicator, increased thickness */
+  font-weight: bold;
+}
+
+.tabContent {
+  /* padding-top: 20px; */ /* Card will handle padding */
+}
+
+.tabCard {
+  /* Uses Card component styles */
+  /* Specific overrides if needed */
+  /* border-top-left-radius: 0;
+  border-top-right-radius: 0; */ /* If tabs are directly above */
+}
+
+
+.tabPanel {
+  /* Styles for the content area of each tab - now inside a Card */
+  /* padding: 0; */ /* Card handles padding */
+}
+
+.tabPanel h4 { /* This will be the Card title, styled by Card component */
+  /* margin-top: 0; */
+  /* margin-bottom: 15px; */
+  /* font-size: 1.3em; */
+  /* color: #333; */
+}
+
+.list { /* No longer used as Table is used */
+  list-style-type: none;
+  padding: 0;
+}
+
+.listItem { /* No longer used */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.listItem div:first-child { /* No longer used */
+  flex-grow: 1;
+  margin-right: 15px; /* Space before buttons */
+}
+
+.listItem strong { /* No longer used */
+  color: #333;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px; /* Space between buttons in a group */
+}
+
+.button { /* Generic button class, Button component handles its own styles */
+  /* background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out; */
+}
+
+/* .button:hover {
+  background-color: #0056b3;
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+} */
+
+.actionButton { /* No longer used, Button component variants used */
+  /* General action button styling */
+}
+
+.acceptButton { /* No longer used, Button variant="primary" */
+  /* background-color: #28a745; 
+}
+.acceptButton:hover {
+  background-color: #218838; */
+}
+
+.rejectButton { /* No longer used, Button variant="danger" or "warning" */
+  /* background-color: #ffc107; 
+  color: #212529;
+}
+.rejectButton:hover {
+  background-color: #e0a800; */
+}
+
+.status {
+  padding: 4px 10px; /* Slightly more padding */
+  border-radius: 12px; /* More rounded */
+  font-size: 0.85em;
+  font-weight: 600; /* Slightly bolder */
+  text-transform: capitalize;
+  display: inline-block; /* To allow padding and border-radius to work well */
+  line-height: 1.2;
+}
+
+.statusPending { /* Renamed from statusPending for consistency with Application interface */
+  background-color: #fff3cd; /* Bootstrap warning light */
+  color: #856404;    /* Bootstrap warning dark */
+  border: 1px solid #ffeeba;
+}
+.statuspending { /* Keep for backward compatibility or if used elsewhere, but prefer capitalized */
+  background-color: #fff3cd; 
+  color: #856404;    
+  border: 1px solid #ffeeba;
+}
+
+
+.statusAccepted { /* Renamed from statusAccepted */
+  background-color: #d4edda; /* Bootstrap success light */
+  color: #155724;    /* Bootstrap success dark */
+  border: 1px solid #c3e6cb;
+}
+.statusaccepted { /* Keep for backward compatibility */
+  background-color: #d4edda; 
+  color: #155724;    
+  border: 1px solid #c3e6cb;
+}
+
+.statusRejected { /* Renamed from statusRejected */
+  background-color: #f8d7da; /* Bootstrap danger light */
+  color: #721c24;    /* Bootstrap danger dark */
+  border: 1px solid #f5c6cb;
+}
+.statusrejected { /* Keep for backward compatibility */
+  background-color: #f8d7da; 
+  color: #721c24;    
+  border: 1px solid #f5c6cb;
+}
+
+
+.infoText {
+  font-size: 0.9em;
+  color: #6c757d; /* Bootstrap muted text color */
+  margin-top: 15px; /* Increased margin */
+  padding: 10px;    /* Increased padding */
+  background-color: #f8f9fa; /* Lighter background */
+  border-left: 4px solid #007bff; /* Thicker border */
+  border-radius: 4px;
+}

@@ -1,0 +1,76 @@
+.searchForm {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px; /* Space between form and results */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
+  font-size: 0.95em;
+}
+
+.inputField,
+.selectField {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  color: #333;
+}
+
+.selectField {
+  appearance: none; /* For custom arrow if desired, or default styling */
+  background-color: white; /* Ensure select background is white */
+}
+
+.formActions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start; /* Align buttons to the start */
+  margin-top: 10px; /* Add some space above the buttons if formGrid had a larger bottom margin */
+}
+
+.button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  text-align: center;
+}
+
+.searchButton {
+  background-color: #007bff;
+  color: white;
+}
+.searchButton:hover {
+  background-color: #0056b3;
+}
+
+.clearButton {
+  background-color: #6c757d; /* Secondary/gray color */
+  color: white;
+}
+.clearButton:hover {
+  background-color: #5a6268;
+}

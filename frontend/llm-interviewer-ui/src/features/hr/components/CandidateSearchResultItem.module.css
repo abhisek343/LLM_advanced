@@ -1,0 +1,91 @@
+.resultItem {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  gap: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.candidateInfo {
+  flex-grow: 1;
+}
+
+.candidateInfo h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 1.3em;
+  color: #0056b3;
+}
+
+.candidateInfo p {
+  margin: 0 0 6px 0;
+  font-size: 0.95em;
+  color: #333;
+  line-height: 1.5;
+}
+
+.candidateInfo p strong {
+  color: #111;
+}
+
+.candidateActions {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically if needed */
+  gap: 10px;
+  min-width: 180px; /* Ensure buttons have enough space */
+  align-items: flex-end; /* Align buttons to the right */
+}
+
+/* Basic Button Styling (should come from common component styles ideally) */
+.button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  text-align: center;
+  text-decoration: none; /* For Link components styled as buttons */
+  display: inline-block;
+}
+
+.button-primary {
+  background-color: #007bff;
+  color: white;
+}
+.button-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.button-secondary:hover {
+  background-color: #5a6268;
+}
+
+.button-link {
+  background-color: transparent;
+  color: #007bff;
+  padding: 6px 0; /* Minimal padding for link-like buttons */
+}
+.button-link:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.button-small {
+  padding: 6px 10px;
+  font-size: 0.85em;
+}
+.button-medium {
+  padding: 8px 12px;
+  font-size: 0.9em;
+}
+/* Add .button-large if needed */

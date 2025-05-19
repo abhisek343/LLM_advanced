@@ -1,0 +1,174 @@
+.pageContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 1200px; /* Wider for two-column layout */
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pageHeader {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.pageHeader h1 {
+  margin: 0 0 5px 0;
+  font-size: 2em;
+  color: #333;
+}
+
+.loadingText,
+.errorMessage {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1.05em;
+}
+
+.loadingText {
+  color: #004085;
+  background-color: #cce5ff;
+  border: 1px solid #b8daff;
+}
+
+.errorMessage {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.messagesLayout {
+  display: flex;
+  gap: 20px;
+  min-height: 60vh; /* Ensure layout takes some height */
+}
+
+.messageListContainer {
+  flex: 1; /* Takes up 1/3 or 1/4 of space */
+  min-width: 300px; /* Minimum width for the list */
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow-y: auto; /* Scroll for long list */
+}
+
+.messageListContainer h2 {
+  font-size: 1.4em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.messageList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messageItem {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.messageItem:last-child {
+  border-bottom: none;
+}
+
+.messageItem:hover {
+  background-color: #f0f8ff; /* Light alice blue */
+}
+
+.messageItem.selected {
+  background-color: #e0efff; /* Slightly darker blue for selected */
+  border-left: 4px solid #007bff;
+  padding-left: 11px; /* Adjust padding for border */
+}
+
+.messageItem.unread .messageSubject,
+.messageItem.unread .messageSender {
+  font-weight: bold;
+}
+
+.messageSubject {
+  font-size: 1.1em;
+  color: #0056b3;
+  margin-bottom: 5px;
+}
+
+.messageSender {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+.messageDate {
+  font-size: 0.8em;
+  color: #777;
+  margin-bottom: 8px;
+}
+
+.messagePreview {
+  font-size: 0.9em;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%; /* Ensure ellipsis works */
+}
+
+.messageViewContainer {
+  flex: 2; /* Takes up 2/3 or 3/4 of space */
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow-y: auto; /* Scroll for long content */
+}
+
+.messageViewHeader {
+  font-size: 1.6em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.messageViewMeta {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.messageViewMeta p {
+  margin: 0 0 5px 0;
+}
+
+.messageViewContent {
+  line-height: 1.7;
+  color: #333;
+  white-space: pre-wrap; /* Preserve formatting of the message content */
+}
+
+.noMessageSelected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #777;
+  font-size: 1.1em;
+}
+
+.replyButton {
+  margin-top: 15px;
+}

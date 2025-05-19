@@ -1,0 +1,146 @@
+.dashboardContainer {
+  padding: 1rem;
+}
+
+.dashboardContainer h1 {
+  text-align: left;
+  margin-bottom: 0.25rem;
+}
+
+.subHeader {
+  text-align: left;
+  margin-bottom: 1.5rem;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.widgetsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.widget {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.widget h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.widget p {
+  margin-bottom: 0.75rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.statsWidget p strong {
+  color: #007bff; /* Highlight stats numbers */
+}
+
+.applicationList {
+  list-style-type: none;
+  padding-left: 0;
+  max-height: 400px; /* Example height, make scrollable if many */
+  overflow-y: auto;
+}
+
+.applicationItem {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to top for varying content height */
+}
+
+.applicationItem div:first-child { /* Info block */
+  flex-grow: 1;
+}
+
+.applicationItem p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: flex-end; /* Align buttons to the right */
+  gap: 0.5rem; /* Space between buttons */
+  margin-left: 1rem; /* Space from info block */
+}
+
+.actionButton {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  min-width: 80px; /* Ensure buttons have some width */
+  text-align: center;
+}
+
+.actionButton.approveButton {
+  background-color: #28a745;
+}
+.actionButton.approveButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.actionButton.rejectButton {
+  background-color: #dc3545;
+}
+.actionButton.rejectButton:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.actionButton:disabled {
+  background-color: #6c757d;
+}
+
+.statusMessage {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.linkButton {
+  display: block; /* Make links take full width in quick actions */
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1.2rem;
+  background-color: #007bff;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.linkButton:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
+
+.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}

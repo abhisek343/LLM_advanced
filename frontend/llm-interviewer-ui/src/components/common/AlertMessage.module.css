@@ -1,0 +1,115 @@
+.alertBase {
+  display: flex;
+  align-items: flex-start; /* Align icon and text to the top */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+  /* Basic styling for default icons, can be enhanced */
+  font-size: 1.25rem; /* Make icons a bit larger */
+  line-height: 1.2; /* Adjust for vertical alignment with text */
+}
+
+/* .defaultIcon { */
+  /* Specific styling for default text icons if needed */
+/* } */
+
+.contentWrapper {
+  flex-grow: 1;
+}
+
+.alertTitle {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.alertMessage {
+  line-height: 1.5;
+}
+
+.closeButton {
+  margin-left: 1.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}
+
+/* Type-specific styles */
+.success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+.success .alertTitle {
+  color: #0a3622;
+}
+.success .closeButton {
+  color: #0f5132;
+}
+.success .iconWrapper {
+  color: #0f5132;
+}
+
+
+.error {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+.error .alertTitle {
+  color: #58151c;
+}
+.error .closeButton {
+  color: #842029;
+}
+.error .iconWrapper {
+  color: #842029;
+}
+
+.warning {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
+}
+.warning .alertTitle {
+  color: #4d3802;
+}
+.warning .closeButton {
+  color: #664d03;
+}
+.warning .iconWrapper {
+  color: #664d03;
+}
+
+.info {
+  color: #055160;
+  background-color: #cff4fc;
+  border-color: #b6effb;
+}
+.info .alertTitle {
+  color: #032830;
+}
+.info .closeButton {
+  color: #055160;
+}
+.info .iconWrapper {
+  color: #055160;
+}

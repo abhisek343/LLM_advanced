@@ -1,0 +1,123 @@
+.overviewContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.overviewContainer h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.filterForm {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroup label {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.formGroup input[type="text"],
+.formGroup select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.interviewsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.interviewsTable th,
+.interviewsTable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.9em;
+}
+
+.interviewsTable th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.interviewsTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.interviewsTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.status {
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.85em;
+  text-transform: capitalize;
+  display: inline-block;
+}
+.status.scheduled, .status.pending_questions { background-color: #ffc107; color: #333; }
+.status.completed { background-color: #007bff; }
+.status.evaluated { background-color: #28a745; }
+.status.cancelled { background-color: #dc3545; }
+
+
+.detailsLink {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.detailsLink:hover {
+  text-decoration: underline;
+}
+
+.paginationControls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.paginationControls span {
+  font-size: 0.9em;
+}
+
+.errorMessage {
+  color: red;
+  padding: 10px;
+  border: 1px solid red;
+  background-color: #ffe0e0;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+.backLink:hover {
+  text-decoration: underline;
+}

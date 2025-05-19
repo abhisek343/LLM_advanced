@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src", // Added baseUrl
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // "types": ["vite/client", "vitest/globals"], // Removed duplicate, keep the one below
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client"], // Ensure vitest/globals is here for IDE, tsc might still need exclude for build script
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/__tests__/*",
+    "src/**/__mocks__/*",
+    "src/setupTests.ts", // Exclude test setup file from app build
+    "node_modules",
+    "dist"
+  ]
+}

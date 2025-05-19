@@ -1,0 +1,37 @@
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem; /* Or adjust as needed */
+}
+
+.checkboxInput {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  width: 16px; /* Standard size */
+  height: 16px;
+}
+
+.checkboxLabel {
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  user-select: none; /* Prevent text selection on label click */
+}
+
+.checkboxLabel a { /* Style links within labels if any */
+  color: #007bff;
+  text-decoration: none;
+}
+
+.checkboxLabel a:hover {
+  text-decoration: underline;
+}
+
+.disabled .checkboxLabel {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.disabled .checkboxInput {
+  cursor: not-allowed;
+}

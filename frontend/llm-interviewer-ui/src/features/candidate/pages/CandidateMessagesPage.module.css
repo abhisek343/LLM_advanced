@@ -1,0 +1,195 @@
+.messagesContainer {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.messagesContainer h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.messagesLayout {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 500px; /* Ensure a decent height */
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.messageListPane {
+  width: 35%;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.messageListPane ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messageItem {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.messageItem:hover {
+  background-color: #f9f9f9;
+}
+
+.messageItem.selected {
+  background-color: #e9ecef;
+}
+
+.messageItem.unread .subject,
+.messageItem.unread .sender {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+.sender {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.subject {
+  font-size: 1rem;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem; /* Add some space below subject */
+}
+
+.snippet {
+  font-size: 0.85rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem; /* Add some space below snippet */
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #777;
+  text-align: right;
+}
+
+.messageViewPane {
+  width: 65%;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.messageViewPane h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.messageInfo {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed #eee;
+}
+
+.messageInfo strong {
+  color: #444;
+}
+
+.messageContent {
+  line-height: 1.7;
+  color: #333;
+  white-space: pre-wrap; /* Preserve line breaks from text */
+}
+
+.messageActions {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #eee;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.noMessageSelected {
+  text-align: center;
+  color: #777;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+.error {
+  color: red;
+  padding: 1rem;
+  border: 1px solid red;
+  background-color: #ffe0e0;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* Filter controls styling */
+.filterControls {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filterControls button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color-soft);
+  color: var(--text-color-secondary);
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filterControls button:hover:not(:disabled) {
+  background-color: var(--primary-color-xlight);
+  color: var(--primary-color);
+}
+
+.filterControls button.activeFilter {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.filterControls button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.paginationControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid #eee; /* Add a separator line */
+}
+
+.pageInfo {
+  font-size: 0.9rem;
+  color: var(--text-color-secondary);
+}

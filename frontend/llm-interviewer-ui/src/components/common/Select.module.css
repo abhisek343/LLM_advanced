@@ -1,0 +1,87 @@
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Default spacing */
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333; /* Or use theme variable */
+  font-size: 0.9rem;
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectElement {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem; /* Space for arrow */
+  border: 1px solid #ced4da; /* Or theme variable */
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057; /* Or theme variable */
+  background-color: #fff;
+  appearance: none; /* Remove default system appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.selectElement:focus {
+  border-color: #80bdff; /* Or theme variable for focus */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Or theme variable */
+}
+
+.selectElement:disabled {
+  background-color: #e9ecef; /* Or theme variable */
+  opacity: 1;
+  cursor: not-allowed;
+  color: #6c757d;
+}
+
+/* Custom arrow */
+.selectArrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none; /* So it doesn't interfere with select click */
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #6c757d; /* Arrow color */
+}
+
+.selectElement:disabled ~ .selectArrow {
+  border-top-color: #adb5bd;
+}
+
+
+/* Error state */
+.selectWrapperError .selectElement,
+.selectElement[aria-invalid="true"] {
+  border-color: #dc3545; /* Or theme variable for error */
+}
+.selectWrapperError .selectElement:focus,
+.selectElement[aria-invalid="true"]:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+.selectWrapperError .selectArrow {
+    border-top-color: #dc3545;
+}
+
+
+.errorMessage {
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545; /* Or theme variable for error text */
+}

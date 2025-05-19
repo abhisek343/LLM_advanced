@@ -1,0 +1,169 @@
+.hrManagementContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f6; /* Light background for the whole page */
+  min-height: 100vh;
+}
+
+.hrManagementContainer h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #dee2e6; /* Slightly thicker border */
+  justify-content: center; /* Center tabs */
+}
+
+.tabs button {
+  padding: 12px 25px; /* Increased padding */
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 17px; /* Slightly larger font */
+  margin-right: 8px;
+  border-bottom: 3px solid transparent;
+  color: #555;
+  transition: all 0.3s ease-in-out;
+}
+
+.tabs button:hover {
+  color: #007bff;
+  border-bottom: 3px solid #007bff80; /* Lighter blue on hover */
+}
+
+.tabs button.activeTab {
+  border-bottom: 3px solid #007bff; /* Primary color */
+  font-weight: 600; /* Bolder */
+  color: #007bff;
+}
+
+.tabContent {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #fff; /* White background for content area */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.tabContent h2 {
+  color: #343a40; /* Darker heading for sections */
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.listItem {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to top for better layout with multi-line text */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.listItem:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.listItem p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 15px;
+}
+
+.listItem p strong {
+    color: #333;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column; /* Stack actions vertically on smaller screens or if many */
+  gap: 10px;
+  align-items: flex-end; /* Align actions to the right */
+  margin-left: 20px; /* Space between details and actions */
+}
+
+.actionLinkButton {
+  padding: 9px 15px;
+  background-color: #6c757d; /* Secondary button color */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.actionLinkButton:hover {
+  background-color: #5a6268;
+}
+
+.errorMessage {
+  color: #D8000C; /* Standard error red */
+  padding: 12px;
+  border: 1px solid #D8000C;
+  border-radius: 5px;
+  background-color: #FFD2D2; /* Light red background */
+  margin-bottom: 15px;
+}
+
+.statusMessage {
+  font-style: italic;
+  color: #555; /* Neutral color for status */
+  font-size: 14px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 10px 18px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.backLink:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .tabs button {
+    margin-right: 0;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  .listItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions {
+    flex-direction: row; /* Keep actions in a row on small screens but allow wrapping */
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align to start */
+    margin-top: 15px;
+    margin-left: 0;
+    align-items: center;
+  }
+}

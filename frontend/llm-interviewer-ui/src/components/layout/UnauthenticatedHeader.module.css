@@ -1,0 +1,21 @@
+.header {
+  background-color: #333; /* Consistent with main header */
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center; /* Center the logo for unauthenticated pages */
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem; /* Add some space below the header */
+}
+
+.logoContainer {
+  /* No specific styles needed if logo is directly in header */
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: 1.8rem; /* Slightly larger or same as main logo */
+  font-weight: bold;
+}

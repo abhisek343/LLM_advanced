@@ -1,0 +1,101 @@
+.profileFormSection {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.profileFormSection h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 10px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
+  font-size: 0.95em;
+}
+
+.inputField,
+.textareaField,
+.fileInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+  font-size: 1em;
+  color: #333;
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.fileInput {
+  padding: 8px; /* Specific padding for file input */
+}
+
+.selectedFile {
+  margin-top: 8px;
+  font-style: italic;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  display: inline-block;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  /* Add any specific styling for submit buttons if different from general .button */
+}
+
+.currentResumeInfo {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f0f8ff; /* Light blue background */
+  border: 1px solid #d1e9ff;
+  border-radius: 5px;
+}
+
+.currentResumeInfo p {
+  margin: 0 0 5px 0;
+  color: #31708f; /* Bootstrap info text color */
+}
+
+.currentResumeInfo strong {
+  color: #2a6496;
+}

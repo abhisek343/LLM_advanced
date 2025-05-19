@@ -1,0 +1,50 @@
+.authContainer {
+  max-width: 450px;
+  margin: 2rem auto; /* Centering the container */
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.authContainer h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.authLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.authLink a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.authLink a:hover {
+  text-decoration: underline;
+}
+
+.successMessage {
+  color: green;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #e6ffed;
+  border: 1px solid #b7e4c7;
+  border-radius: 4px;
+}
+
+.errorMessage {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  border: 1px solid #D8000C;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}

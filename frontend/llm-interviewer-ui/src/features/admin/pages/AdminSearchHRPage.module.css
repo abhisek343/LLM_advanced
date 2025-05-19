@@ -1,0 +1,104 @@
+.searchHrContainer {
+  padding: var(--spacing-lg);
+  max-width: 900px;
+  margin: var(--spacing-lg) auto;
+  background-color: var(--color-background-component);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+}
+
+.searchHrContainer h1 {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text-primary);
+}
+
+.searchForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background-color: #f8f9fa; /* Lighter background for form area */
+  border-radius: var(--border-radius);
+}
+
+.formInput {
+  flex: 1 1 200px; /* Allow inputs to grow and shrink */
+}
+
+.searchButton {
+  flex-basis: 100%; /* Make button take full width on small screens or as last item */
+  margin-top: var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .searchButton {
+    flex-basis: auto; /* Allow button to shrink on larger screens */
+    margin-top: 0;
+    align-self: flex-end; /* Align with bottom of inputs */
+  }
+}
+
+.resultsContainer {
+  margin-top: var(--spacing-xl);
+}
+
+.resultsContainer h2 {
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--spacing-sm);
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+}
+
+.resultItem {
+  background-color: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: var(--box-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.resultItem h3 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-primary);
+}
+
+.resultItem p {
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.actionMessage {
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: var(--spacing-lg);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

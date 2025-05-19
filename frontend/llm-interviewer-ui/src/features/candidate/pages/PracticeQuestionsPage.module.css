@@ -1,0 +1,57 @@
+.practiceContainer {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.practiceContainer h1 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.comingSoonText {
+  font-size: 1.1rem;
+  color: var(--text-color-secondary);
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--border-color);
+}
+
+.infoCard {
+  margin-bottom: 2rem;
+  background-color: var(--background-color-soft); /* A slightly different background for emphasis */
+}
+
+.infoCard ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+.infoCard li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.backLinkContainer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.backLink {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-small);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.backLink:hover {
+  background-color: var(--primary-color-light);
+  text-decoration: underline;
+}

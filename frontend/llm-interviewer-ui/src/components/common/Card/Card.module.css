@@ -1,0 +1,43 @@
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  overflow: hidden; /* Ensures child elements conform to border-radius */
+}
+
+.cardHeader {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa; /* Light header background */
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.cardBody {
+  padding: 1.5rem;
+}
+
+.cardBody p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.cardBody p:last-child {
+  margin-bottom: 0;
+}
+
+.cardActions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end; /* Align actions to the right by default */
+}

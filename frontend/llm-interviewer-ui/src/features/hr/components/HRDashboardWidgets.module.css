@@ -1,0 +1,99 @@
+.widgetsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 1.4em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.cardContent p {
+  margin: 0 0 10px 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.cardContent ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  padding-left: 0;
+  margin-bottom: 15px;
+}
+
+.cardContent li {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  display: inline-block;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button.disabledButton {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Specific card styling if needed - removed empty rulesets */
+/* .statusCard {} */
+/* .candidatesCard {} */
+/* .requestsCard {} */
+/* .quickActionsCard {} */
+
+.quickActionsCard .button {
+  width: 100%; /* Make quick action buttons full width */
+  margin-bottom: 10px;
+}
+
+.quickActionsCard .button:last-child {
+  margin-bottom: 0;
+}
+
+.requestsCard h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #444;
+}
+
+.fullWidthButton { /* Added to ensure buttons in requestsCard can be full width if needed */
+  width: 100%;
+}
+
+.marginTopButton {
+  margin-top: 10px;
+}

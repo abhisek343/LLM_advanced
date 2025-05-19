@@ -1,0 +1,12 @@
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
+}
+
+.mainContent {
+  flex-grow: 1; /* Allows main content to expand and push footer down */
+  padding: 1rem 2rem; /* Add some padding around the main content area */
+  /* max-width: 1200px; /* Optional: constrain width of main content */
+  /* margin: 0 auto; /* Optional: center main content if max-width is set */
+}

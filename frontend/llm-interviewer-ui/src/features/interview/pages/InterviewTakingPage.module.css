@@ -1,0 +1,290 @@
+.interviewContainer {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.interviewHeader {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.interviewHeader h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.interviewMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.timer {
+  font-weight: bold;
+  color: #d9534f; /* A reddish color for urgency */
+}
+
+.questionSection {
+  padding: 1rem 0;
+}
+
+.questionSection h2 {
+  font-size: 1.3rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+}
+
+.questionText {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 1rem;
+  white-space: pre-wrap; /* Preserve formatting */
+}
+
+.durationHint {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+}
+
+.answerSection {
+  position: relative; /* For positioning the submitted indicator */
+  margin-bottom: 1rem;
+}
+
+.saveAnswerButton {
+  display: block;
+  margin-top: 1rem;
+  margin-left: auto; /* Align to the right */
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-color, #6c757d);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.saveAnswerButton:hover:not(:disabled) {
+  background-color: var(--secondary-color-dark, #5a6268);
+}
+
+.saveAnswerButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.answerSubmittedIndicator {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--success-color, green);
+  font-style: italic;
+  text-align: right; /* Align with the save button */
+}
+
+
+.answerTextarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5;
+  min-height: 150px;
+  box-sizing: border-box; /* Ensures padding doesn't add to width/height */
+}
+
+.answerTextarea:focus {
+  outline: none;
+  border-color: #007bff; /* Highlight color */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.interviewFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.navButton {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.navButton:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.navButton:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.submitAllButton {
+  background-color: #28a745; /* Green for submit */
+  color: white;
+  border-color: #28a745;
+}
+
+.submitAllButton:hover:not(:disabled) {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.submitAllButton:disabled {
+  background-color: #a3d9a5; /* Lighter green when disabled */
+  border-color: #a3d9a5;
+}
+
+.error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  border: 1px solid #D8000C;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.error a {
+  color: #D8000C;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.instructionsSection {
+  padding: 1.5rem;
+  background-color: #f9f9f9; /* Light background for instructions */
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius-medium);
+  margin-bottom: 2rem; /* Space before the actual interview content would show */
+}
+
+.instructionsSection h2 {
+  margin-top: 0;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.instructionsSection p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.instructionsSection ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  padding-left: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.instructionsSection li {
+  margin-bottom: 0.5rem;
+}
+
+.startInterviewButton {
+  display: block;
+  width: auto;
+  margin: 1.5rem auto 0; /* Center the button */
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-medium);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.startInterviewButton:hover:not(:disabled) {
+  background-color: var(--primary-color-dark);
+}
+
+.startInterviewButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Styles for Review Section */
+.reviewSection {
+  padding: 1.5rem;
+  background-color: #fdfdfd; /* Slightly different from main container if needed */
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.reviewSection h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.reviewQuestionItem {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color-light, #e0e0e0);
+  border-radius: var(--border-radius-medium);
+  background-color: #fff;
+}
+
+.reviewQuestionItem h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.reviewAnswer {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+  background-color: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-small);
+  margin-bottom: 0.75rem;
+  white-space: pre-wrap; /* Preserve formatting for text and code */
+}
+
+.reviewAnswer pre { /* Style for code blocks if displayed in pre */
+  background-color: #2d2d2d; /* Dark background for code */
+  color: #f8f8f2; /* Light text for code */
+  padding: 1rem;
+  border-radius: var(--border-radius-small);
+  overflow-x: auto;
+  font-family: var(--font-family-monospace);
+}
+
+.editAnswerButton {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background-color: var(--secondary-color-light, #e9ecef);
+  color: var(--secondary-color-dark, #495057);
+  border: 1px solid var(--border-color, #ced4da);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editAnswerButton:hover {
+  background-color: #d6d8db;
+}

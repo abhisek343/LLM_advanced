@@ -1,0 +1,113 @@
+.scheduleForm {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  /* Inherits page container max-width if used within ScheduleInterviewPage */
+}
+
+.formSubHeader {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #eee;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #444;
+  font-size: 0.95em;
+}
+
+.inputField,
+.textareaField,
+.selectField {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  color: #333;
+  background-color: #fff; /* Ensure background is white for disabled state */
+}
+
+.inputField:disabled,
+.textareaField:disabled,
+.selectField:disabled {
+  background-color: #e9ecef; /* Light gray for disabled fields */
+  cursor: not-allowed;
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.selectField {
+  appearance: none; /* For custom arrow if desired, or default styling */
+}
+
+.formRow {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.formRow .formGroup {
+  flex: 1; 
+  margin-bottom: 0;
+}
+
+.button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  text-align: center;
+  display: block; 
+  width: 100%;
+}
+
+.submitButton {
+  background-color: #28a745; 
+  color: white;
+  margin-top: 10px; 
+}
+.submitButton:hover {
+  background-color: #218838;
+}
+.submitButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.errorMessage,
+.successMessage {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.95em;
+}
+
+.errorMessage {
+  background-color: #f8d7da; 
+  color: #721c24; 
+  border: 1px solid #f5c6cb;
+}
+
+.successMessage {
+  background-color: #d4edda; 
+  color: #155724; 
+  border: 1px solid #c3e6cb;
+}

@@ -1,0 +1,38 @@
+.cardBase {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.25em; /* Slightly larger than typical h3 for emphasis */
+  font-weight: 600; /* Semi-bold */
+  color: #333;
+}
+
+.cardBody {
+  padding: 20px;
+  flex-grow: 1; /* Allows body to take up available space */
+}
+
+.cardBody p:last-child {
+  margin-bottom: 0;
+}
+
+.cardFooter {
+  padding: 12px 20px;
+  border-top: 1px solid #f0f0f0;
+  background-color: #f9f9f9; /* Slightly different background for footer */
+  display: flex;
+  justify-content: flex-end; /* Align actions to the right by default */
+  gap: 10px;
+}

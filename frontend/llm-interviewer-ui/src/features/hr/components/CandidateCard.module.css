@@ -1,0 +1,67 @@
+.candidateCard {
+  /* Using Card component's base styles, so this can be for overrides or specific additions */
+  /* Example: border-left: 5px solid var(--primary-color); */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.candidateCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardContent {
+  padding: 10px 0; /* Add some padding if Card doesn't provide enough internally */
+}
+
+.detailItem {
+  margin-bottom: 8px;
+  font-size: 0.95em;
+  color: #555;
+}
+
+.detailItem strong {
+  color: #333;
+}
+
+.status {
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  text-transform: capitalize;
+}
+
+/* Example status colors - adjust as per your theme and actual statuses */
+.statuspending_invitation {
+  background-color: #eef2f7; /* Light blue/grey */
+  color: #3a5f8a;
+}
+.statusinvited {
+  background-color: #e6f7ff; /* Light blue */
+  color: #096dd9;
+}
+.statusinterview_scheduled {
+  background-color: #fffbe6; /* Light yellow */
+  color: #d48806;
+}
+.statuscompleted {
+  background-color: #f6ffed; /* Light green */
+  color: #389e0d;
+}
+.statusunknown {
+  background-color: #f0f0f0; /* Grey */
+  color: #595959;
+}
+
+
+.cardActions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px;
+}
+
+.actionButton {
+  /* Specific styles for buttons within the card if needed */
+}

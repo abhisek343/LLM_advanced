@@ -1,0 +1,17 @@
+.iconBase {
+  display: inline-flex; /* Aligns well with text and other elements */
+  align-items: center;
+  justify-content: center;
+  /* Default size and color can be set here or inherited */
+  /* For SVG icons, you might set width/height or fill/stroke */
+  font-style: normal; /* Ensure text-based icons are not italicized by parent styles */
+  line-height: 1; /* Prevent extra space for text-based icons */
+}
+
+/* Add specific styles for icon types if not using an SVG library */
+/* e.g., if using a font icon library:
+.iconBase.user::before {
+  font-family: "YourIconFont";
+  content: "\f007"; 
+}
+*/

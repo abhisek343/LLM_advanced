@@ -1,0 +1,18 @@
+.pageContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 5px 0;
+  font-size: 2em;
+  color: #333;
+}

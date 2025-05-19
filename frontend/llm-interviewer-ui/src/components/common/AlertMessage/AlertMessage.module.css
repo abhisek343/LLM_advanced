@@ -1,0 +1,51 @@
+.alertMessage {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-sm);
+}
+
+.messageText {
+  flex-grow: 1;
+}
+
+.alertMessage.success {
+  color: var(--alert-success-text);
+  background-color: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+}
+
+.alertMessage.error {
+  color: var(--alert-error-text);
+  background-color: var(--alert-error-bg);
+  border-color: var(--alert-error-border);
+}
+
+.alertMessage.warning {
+  color: var(--alert-warning-text);
+  background-color: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+}
+
+.alertMessage.info {
+  color: var(--alert-info-text);
+  background-color: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+}
+
+.closeButton {
+  margin-left: 1rem;
+  padding: 0.25rem 0.5rem; /* Smaller padding for close button */
+  font-size: 1.2rem; /* Adjust size of '×' */
+  line-height: 1;
+  color: inherit; /* Inherit color from parent alert type */
+  opacity: 0.7;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}

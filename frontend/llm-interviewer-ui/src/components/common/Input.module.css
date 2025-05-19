@@ -1,0 +1,95 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Default spacing */
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333; /* Or use theme variable */
+  font-size: 0.9rem;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputElement {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da; /* Or theme variable */
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057; /* Or theme variable */
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.inputElement:focus {
+  border-color: #80bdff; /* Or theme variable for focus */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Or theme variable */
+}
+
+.inputElement::placeholder {
+  color: #6c757d; /* Or theme variable */
+  opacity: 1;
+}
+
+.inputElement:disabled {
+  background-color: #e9ecef; /* Or theme variable */
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* Error state */
+.inputWrapperError .inputElement,
+.inputElement[aria-invalid="true"] {
+  border-color: #dc3545; /* Or theme variable for error */
+}
+.inputWrapperError .inputElement:focus,
+.inputElement[aria-invalid="true"]:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.errorMessage {
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545; /* Or theme variable for error text */
+}
+
+/* Icons */
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d; /* Or theme variable */
+  width: 2.5rem; /* Fixed width for icon area */
+  height: 100%;
+}
+
+.iconLeft {
+  left: 0;
+  padding-left: 0.75rem; /* Adjust as needed */
+}
+
+.iconRight {
+  right: 0;
+  padding-right: 0.75rem; /* Adjust as needed */
+}
+
+.inputElement.withIconLeft {
+  padding-left: 2.75rem; /* Adjust based on icon width + padding */
+}
+
+.inputElement.withIconRight {
+  padding-right: 2.75rem; /* Adjust based on icon width + padding */
+}

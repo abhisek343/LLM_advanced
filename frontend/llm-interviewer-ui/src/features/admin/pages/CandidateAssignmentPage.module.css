@@ -1,0 +1,87 @@
+.assignmentContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.assignmentContainer h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.searchForm {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: flex-end; /* Align button with input */
+}
+
+.candidateList {
+  list-style: none;
+  padding: 0;
+}
+
+.candidateItem {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.candidateItem h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #007bff;
+}
+
+.candidateItem p {
+  margin: 3px 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.profileLink {
+  font-size: 0.9em;
+  color: #007bff;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 5px;
+}
+.profileLink:hover {
+  text-decoration: underline;
+}
+
+.assignmentControls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px; /* Add some space if it wraps */
+}
+
+.actionMessage {
+  font-size: 0.85em;
+  margin-top: 5px;
+  width: 100%; /* Take full width if it wraps */
+}
+
+.error {
+  color: #dc3545; /* Bootstrap danger color */
+}
+
+.success {
+  color: #28a745; /* Bootstrap success color */
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+.backLink:hover {
+  text-decoration: underline;
+}

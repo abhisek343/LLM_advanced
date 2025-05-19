@@ -1,0 +1,70 @@
+.dashboardContainer {
+  padding: 1rem;
+}
+
+.widget {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.widget h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.widget p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.linkButton {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.linkButton:hover {
+  background-color: #0056b3;
+}
+
+.linkButtonSmall {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  margin-left: 1rem;
+}
+
+.interviewItem {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.interviewItem:last-child {
+  border-bottom: none;
+}
+
+.interviewItem strong {
+  color: #333;
+}
+
+.error {
+  color: red;
+  padding: 1rem;
+  border: 1px solid red;
+  background-color: #ffe0e0;
+  border-radius: 4px;
+}

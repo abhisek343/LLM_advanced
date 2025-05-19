@@ -1,0 +1,23 @@
+.footer {
+  background-color: #f8f9fa; /* A light grey background */
+  color: #6c757d; /* A muted text color */
+  padding: 2rem 2rem;
+  text-align: center;
+  border-top: 1px solid #e7e7e7;
+  margin-top: auto; /* Pushes footer to the bottom if content is short */
+}
+
+.footerNav {
+  margin-top: 0.5rem;
+}
+
+.footerLink {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}

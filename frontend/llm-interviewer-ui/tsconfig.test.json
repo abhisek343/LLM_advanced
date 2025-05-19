@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "esnext", // Changed to esnext for import.meta compatibility
+    "skipLibCheck": true,
+    "baseUrl": ".", // Added for path aliases
+    "paths": {
+      "@/*": ["src/*"] // Added to match Jest's moduleNameMapper and common practice
+    },
+
+    /* Bundler mode */
+    "moduleResolution": "node", // Reverted to node for better CJS/Jest compatibility
+    "typeRoots": [ // Added to explicitly guide TS to @types
+      "./node_modules/@types",
+      "../node_modules/@types" // In case tests are run from a different root in some context
+    ],
+    "allowImportingTsExtensions": true,
+    // "verbatimModuleSyntax": true, // Removed/set to false
+    "noEmit": true, // Jest/ts-jest handles transpilation
+    "jsx": "react-jsx",
+    "types": ["jest", "node", "vitest", "vitest/globals"], // Added vitest and vitest/globals
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    // "noUncheckedSideEffectImports": true, // Can be noisy, consider removing if issues persist
+    "esModuleInterop": true, // Recommended for Jest
+    "allowSyntheticDefaultImports": true, // Recommended for Jest
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../frontend_mvp_tests/**/*.ts",
+    "../frontend_mvp_tests/**/*.tsx",
+    "../frontend_mvp_tests/__mocks__/**/*.ts",
+    "../frontend_mvp_tests/__mocks__/**/*.tsx",
+    "jest.config.js",
+    "vite.config.ts",
+    "vitest.config.ts" // Added vitest.config.ts
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
